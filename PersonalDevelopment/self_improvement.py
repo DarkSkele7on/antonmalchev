@@ -11,13 +11,13 @@ class YouTubeClient:
 
     def search(self, keywords, sort_by="relevance", published_after="2020",max_results=10):
         # Use the YouTube API to search for videos based on the keywords
-        params = {"key": self.api_key, "q": keywords, "part": "snippet", "type": "video", "order": sort_by, "maxResults": max_results}
+        parameters = {"key": self.api_key, "q": keywords, "part": "snippet", "type": "video", "order": sort_by, "maxResults": max_results}
 
         # Filter the results by date and relevance
         if sort_by == "date":
-            params["publishedAfter"] = published_after
+            parameters["publishedAfter"] = published_after
         elif sort_by == "relevance":
-            params["relevanceLanguage"] = "en"
+            parameters["relevanceLanguage"] = "en"
 
         # Handle pagination
         next_page_token = ""
@@ -25,24 +25,24 @@ class YouTubeClient:
         while True:
             # Add the next page token to the query parameters
             if next_page_token:
-                params["pageToken"] = next_page_token
+                parameters["pageToken"] = next_page_token
 
             # Make the API request
             try:
-                response = requests.get(self.base_url, params=params)
-                response.raise_for_status()
+                with requests.get(self.base_url, params=parameters) as response:
+                    response.raise_for_status()
+
+                    # Parse the JSON response
+                    data = response.json()
+                    items = data.get("items", [])
+                    suggestions.extend(items)
+
+                    # Check if there are more pages of results
+                    next_page_token = data.get("nextPageToken")
+                    if not next_page_token:
+                        break
             except requests.RequestException as e:
                 print(f"An error occurred while making the API request: {e}")
-                break
-
-            # Parse the JSON response
-            data = response.json()
-            items = data.get("items", [])
-            suggestions.extend(items)
-
-            # Check if there are more pages of results
-            next_page_token = data.get("nextPageToken")
-            if not next_page_token:
                 break
 
         # Extract the video titles and URLs from the response
@@ -64,12 +64,37 @@ class YouTubeClient:
         webbrowser.open_new(video["url"])
 
         # Print the video URL and title
-        print(video["title"] + " - " + video["url"])
+        return video
+    def download(self, file_name):
+        # Use the `suggest()` method to select a random video from the search results
+        video = self.suggest()
+        if video is None:
+            return
+
+        # Get the video URL from the selected video
+        url = video["url"]
+
+        # Make a GET request to the specified URL
+        try:
+            response = requests.get(url, stream=True)
+            response.raise_for_status()
+        except requests.RequestException as e:
+            print(f"An error occurred while downloading the file: {e}")
+            return
+
+        # Open the file for writing in binary mode
+        with open(file_name, "wb") as f:
+            # Write the contents of the response to the file
+            for chunk in response.iter_content(chunk_size=8192):
+                if chunk:
+                    f.write(chunk)
+        print(f"File successfully downloaded: {file_name}")
 
 # Create an instance of the YouTubeClient class
 client = YouTubeClient("AIzaSyD002GWfSYFQP7h0bVvITqVvFoYvXkj09E")
 
 # Search for videos based on the keywords
-keywords = ["self improvement", "fitness", "money making"]
+keywords = ["self improvement", "fitness", "money making", "hustle","money","investing","get rich","millionaire"]
+
 client.search(keywords)
 client.suggest()
