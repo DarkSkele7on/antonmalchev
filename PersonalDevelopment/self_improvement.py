@@ -97,4 +97,5 @@ client = YouTubeClient("AIzaSyD002GWfSYFQP7h0bVvITqVvFoYvXkj09E")
 keywords = ["self improvement", "fitness", "money making", "hustle","money","investing","get rich","millionaire"]
 
 client.search(keywords)
+client.download("suggested_videos.txt")
 client.suggest()
