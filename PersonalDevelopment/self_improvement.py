@@ -1,6 +1,5 @@
 from random import random
 import requests
-import random
 import webbrowser
 
 def suggest_videos(keywords, sort_by="relevance", published_after="", max_results=10):
@@ -64,6 +63,6 @@ def suggest_videos(keywords, sort_by="relevance", published_after="", max_result
 
             # Add the video to the list
             suggested_videos.append(video)
-            break
+            
         else:
             continue
