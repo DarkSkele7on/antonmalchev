@@ -65,6 +65,7 @@ class YouTubeClient:
 
         # Print the video URL and title
         return video
+        
     def download(self, file_name):
         # Use the `suggest()` method to select a random video from the search results
         video = self.suggest()
