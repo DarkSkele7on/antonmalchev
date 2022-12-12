@@ -4,6 +4,7 @@ import requests
 from typing import List
 import sys
 import subprocess
+import tempfile
 
 class VPNClient:
     # Code for the VPNClient class goes here
@@ -36,8 +37,8 @@ class VPNClient:
             temp.write(config_file)
             temp.seek(0)
 
-            # Run the openvpn command with the configuration file
-            subprocess.run(["openvpn", "--config", temp.name])
+            # Run the openvpn command with the configuration file, the --ca option, and the --cert and --key options
+            subprocess.run(["openvpn", "--config", temp.name, "--ca", "<path-to-ca-file>", "--cert", "<path-to-client-certificate>", "--key", "<path-to-client-key>"])
 
     def filter_servers_by_country(self, country: str, j = 0) -> List[List[str]]:
         # Filter the list of servers by the given country
@@ -87,12 +88,8 @@ class ThreadedPacketSender:
 cntry = "Japan"
 client = VPNClient()
 country_servers = client.filter_servers_by_country(cntry)
+client.connect_to_vpn(cntry)
 client.print_public_ip()
 
-# Print the list of servers
-#for server in country_servers:
-#    print(server)
-
-#Instantiate the ThreadedpacketSendet class
 threads = ThreadedPacketSender("google.com", 10, 10)
 threads.start()
