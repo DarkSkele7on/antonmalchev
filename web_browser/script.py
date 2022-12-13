@@ -24,7 +24,7 @@ class Annoying:
                 if os.access(directory, os.W_OK):
                     # Add the directory to the list of writable directories
                     writable_directories.append(directory)
-                    
+                    print(directory)
 
         return writable_directories
     def replicate_script(self):
