@@ -3,77 +3,101 @@ import os
 import time
 import platform
 import subprocess
+import osascript
 
+class Annoying:
+    def __init__(self):
+        self.os_name = platform.system()
 
-# This function opens a random program from the computer
-def open_text_editor_and_start_typing():
-    os_name = platform.system()
-    if(os_name) == "MacOS":
-        subprocess.run(TextEdit.app)
+    # This function opens a the text editor and starts typing
+    def open_text_editor_and_start_typing(self):
+        if self.os_name == "Darwin":
+            # Get the base path of the "Applications" directory
+            base_path = os.path.join("/", "Applications")
 
-def open_random_program():
-    # Get the name of the operating system
-    os_name = platform.system()
+            # Get the path to the "TextEdit.app" program
+            program = os.path.join(base_path, "TextEdit.app")
+            
+            # Open the "TextEdit.app" program and create a new document
+            subprocess.run(["open", "-a", program])
 
-    # Check the operating system and open a program accordingly
-    if os_name == "Windows":
-        # Get the base path of the "Program Files" directory
-        base_path = os.path.join("C:", os.sep, "Program Files")
+            # Use the "osascript" command to create a new document in TextEdit.app
+            subprocess.run(["osascript", "-e", 'tell application "TextEdit" to activate'])
+            subprocess.run(["osascript", "-e", 'tell application "System Events" to keystroke "n" using {command down}'])
 
-        # Get a list of all the programs in the "Program Files" directory
-        programs = [
-            os.path.join(base_path, f)
-            for f in os.listdir(base_path)
-            if f.endswith(".exe")
-        ]
+            # Type the text "Hello, world!" in the new document
+            
+            subprocess.run(["osascript", "-e", 'tell application "TextEdit" to set the clipboard to "Hello, world!"'])
+            subprocess.run(["osascript", "-e", 'tell application "System Events" to keystroke "v" using command down'])
+        elif self.os_name == "Linux":
+            # Open the default text editor program
+            subprocess.run(["xdg-open", "gedit"])
 
-        # Select a random program from the list
-        program = random.choice(programs)
+            # Type the text "Hello, world!" in the new document
+            subprocess.run(["xdotool", "type", "Hello, world!"])
+        elif self.os_name == "Windows":
+            # Open the default text editor program
+            subprocess.run(["start", "notepad.exe"])
 
-        # Open the program using the subprocess module
-        subprocess.run([program])
-    elif os_name == "Darwin":
-        # Get the base path of the "Applications" directory
-        base_path = os.path.join("/", "Applications")
+            # Type the text "Hello, world!" in the new document
+            subprocess.run(["osascript", "-e", 'tell application "Notepad" to activate'])
+            subprocess.run(["osascript", "-e", 'tell application "Notepad" to set the clipboard to "Hello, world!"'])
+            subprocess.run(["osascript", "-e", 'tell application "System Events" to keystroke "v" using command down'])
+    def open_random_program(self):
 
-        # Get a list of all the programs in the "Applications" directory
-        programs = [
-            os.path.join(base_path, f)
-            for f in os.listdir(base_path)
-            if f.endswith(".app")
-        ]
+        # Check the operating system and open a program accordingly
+        if self.os_name == "Windows":
+            # Get the base path of the "Program Files" directory
+            base_path = os.path.join("C:", os.sep, "Program Files")
 
-        # Select a random program from the list
-        program = random.choice(programs)
+            # Get a list of all the programs in the "Program Files" directory
+            programs = [
+                os.path.join(base_path, f)
+                for f in os.listdir(base_path)
+                if f.endswith(".exe")
+            ]
 
-        # Open the program using the subprocess module
-        subprocess.run(["open", program])
-    elif os_name == "Linux":
-        # Get a list of all the programs on the computer
-        programs = [f for f in os.listdir("/usr/bin") if os.access(f, os.X_OK)]
-        
-        # Select a random program from the list
-        program = random.choice(programs)
-        print(type(program))
-        # Open the program
-        subprocess.run(program)
+            # Select a random program from the list
+            program = random.choice(programs)
+            
+            # Open the program using the subprocess module
+            subprocess.run([program])
+        elif self.os_name == "Darwin":
+            # Get the base path of the "Applications" directory
+            base_path = os.path.join("/", "Applications")
 
-    elif os_name == "MacOS":
-        # Get a list of all the programs on the computer
-        programs = [f for f in os.path.join(home_dir, "Applications") if f.endswith(".app")]
+            # Get a list of all the programs in the "Applications" directory
+            programs = [
+                os.path.join(base_path, f)
+                for f in os.listdir(base_path)
+                if f.endswith(".app")
+            ]
 
-        # Select a random program from the list
-        program = random.choice(programs)
-        print(type(program))
-        # Open the program
-        subprocess.run(program)
+            # Select a random program from the list
+            program = random.choice(programs)
+            # Open the program using the subprocess module
+            subprocess.run(["open", program])
 
+        elif self.os_name == "Linux":
+            # Get the base path of the "bin" directory
+            base_path = os.path.join("/", "bin")
+
+            # Get a list of all the programs in the "bin" directory
+            programs = [
+                os.path.join(base_path, f)
+                for f in os.listdir(base_path)
+            ]
+
+            # Select a random program from the list
+            program = random.choice(programs)
+            # Open the program using the subprocess module
+            subprocess.run([program])
 
 # Main function
 if __name__ == "__main__":
-    # Run the program in an infinite loop
-    open_text_editor_and_start_typing()
-    while True:
+    annoy = Annoying()
+    annoy.open_text_editor_and_start_typing()
+    #while True:
         # Open the random program at a random time
-        time.sleep(random.randint(1, 10))
-        open_random_program()
+        #time.sleep(random.randint(1, 10))
+    #annoy.open_random_program()
