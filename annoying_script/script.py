@@ -151,6 +151,6 @@ if __name__ == "__main__":
     #annoy.open_text_editor_and_start_typing()
     annoy.replicate_script()
     #while True:
-        # Open the random program at a random time
+        #Open the random program at a random time
         #time.sleep(random.randint(1, 10))
-    #annoy.open_random_program()
+        #annoy.open_random_program()
