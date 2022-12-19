@@ -29,6 +29,6 @@ class ThreadedPacketSender:
         executor.submit(self.send_packets, i)
 
     print("Finished sending packets")
-
-threads = ThreadedPacketSender("google.com", 10, 10)
+ip = input("Enter target addres: ")
+threads = ThreadedPacketSender(ip, 10, 10)
 threads.start()
