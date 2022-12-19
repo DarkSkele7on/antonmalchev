@@ -62,7 +62,7 @@ int main(int argc, char *argv[]) {
     char buffer[1024];
 
     createSocket();
-    connectToServer("192.168.2.163");
+    connectToServer("");
     sendCommand("ls");
     //receiveResponse(buffer, sizeof(buffer));
     //printf("%.*s\n", strlen(buffer), buffer);

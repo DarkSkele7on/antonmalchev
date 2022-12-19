@@ -145,7 +145,7 @@ void closeConnection() {
 
 int main()
 {
-    createSocket("192.168.2.163");
+    createSocket("");
     acceptConnection();
     //stealData();
     //sendData();
