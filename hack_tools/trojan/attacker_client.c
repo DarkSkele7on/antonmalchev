@@ -60,9 +60,11 @@ void closeSocket() {
 
 int main(int argc, char *argv[]) {
     char buffer[1024];
+    char ip[11] = "";
+    scanf("%s",ip);
 
     createSocket();
-    connectToServer("");
+    connectToServer(ip);
     sendCommand("ls");
     //receiveResponse(buffer, sizeof(buffer));
     //printf("%.*s\n", strlen(buffer), buffer);
