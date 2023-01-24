@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 import pandas as pd
 import os
 import sys
+from urllib.parse import urlsplit
 
 class WebScraper:
     def __init__(self, pages):
@@ -30,7 +31,8 @@ class WebScraper:
 
     def write_to_csv(self, data):
         for url, title in zip(self.pages, data):
-            file_name = url.split(".")[1].replace("/", "") + ".csv"
+            parsed_url = urlsplit(url)
+            file_name = parsed_url.netloc + ".csv"
             df = pd.DataFrame({'Title': [title]})
             if not os.path.exists(file_name):
                 df.to_csv(file_name, index=False)
