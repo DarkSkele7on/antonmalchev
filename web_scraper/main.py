@@ -21,7 +21,8 @@ class WebScraper:
             response = requests.get(url, headers=self.headers)
         soup = BeautifulSoup(response.content, "html.parser")
         title = soup.find("title").get_text()
-        return title
+        content = soup.get_text()
+        return title, content
 
     def get_data_from_multiple_pages(self):
         data = []
@@ -30,10 +31,10 @@ class WebScraper:
         return data
 
     def write_to_csv(self, data):
-        for url, title in zip(self.pages, data):
+        for url, (title, content) in zip(self.pages, data):
             parsed_url = urlsplit(url)
             file_name = parsed_url.netloc + ".csv"
-            df = pd.DataFrame({'Title': [title]})
+            df = pd.DataFrame({'Title': [title], 'Content': [content]})
             if not os.path.exists(file_name):
                 df.to_csv(file_name, index=False)
             else:
