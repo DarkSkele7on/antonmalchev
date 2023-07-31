@@ -1,0 +1,7 @@
+upload /Users/antonmalchev/GitHub/antonmalchev/test.txt
+upload /Users/antonmalchev/GitHub/antonmalchev/test.txt
+upload /Users/antonmalchev/GitHub/antonmalchev/test.txt
+upload /Users/antonmalchev/GitHub/antonmalchev/test.txt
+upload /Users/antonmalchev/GitHub/antonmalchev/test.txt
+upload test.txt
+upload /Users/antonmalchev/GitHub/antonmalchev/test.txt
