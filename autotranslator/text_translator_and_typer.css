@@ -1,0 +1,25 @@
+QMainWindow {
+    background-color: white;
+}
+
+QLineEdit {
+    background-color: lightgray;
+    border-radius: 10px;
+    padding: 10px;
+    font-size: 16pt;
+}
+
+QPushButton {
+    background-color: lightblue;
+    color: white;
+    border-radius: 10px;
+    padding: 10px;
+    font-size: 14pt;
+}
+
+QComboBox {
+    background-color: lightgray;
+    border-radius: 10px;
+    padding: 10px;
+    font-size: 14pt;
+}
